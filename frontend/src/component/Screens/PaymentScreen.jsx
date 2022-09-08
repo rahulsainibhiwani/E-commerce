@@ -14,53 +14,53 @@ const PaymentScreen = () => {
   if (!shippingAddress) {
     navigate("/shipping");
   }
-  const [paymentMethod, setPaymentMethod] = useState("Paypal");
+  const [paymentMethod, setPaymentMethod] = useState("paypal");
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
     navigate("/placeorder");
   };
   return (
-    <FormContainer>
-      <CheckoutSteps step1 />
-      <h1>Payment Method</h1>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label as={"legend"}>Select Method</Form.Label>
-        </Form.Group>
-        <Col>
-          <Form.Check
-            type={"radio"}
-            label={"Paypal or Credit Card"}
-            id={"paypal"}
-            name={"paymentMethod"}
-            value={"Paypal"}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          ></Form.Check>
-          <Form.Check
-            type={"radio"}
-            label={"Google Pay"}
-            id={"Google Pay"}
-            name={"paymentMethod"}
-            value={"Google Pay"}
-            checked
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          ></Form.Check>
-          <Form.Check
-            type={"radio"}
-            label={"UPI"}
-            id={"UPI"}
-            name={"paymentMethod"}
-            value={"UPI"}
-            checked
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          ></Form.Check>
-        </Col>
-        <Button type="submit" variant="primary" className="my-3">
-          Continue
-        </Button>
-      </Form>
-    </FormContainer>
+    <>
+      <CheckoutSteps step1 step2 step3 />
+      <FormContainer>
+        <h1>Payment Method</h1>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label as={"legend"}>Select Method</Form.Label>
+            <Col>
+              <Form.Check
+                type={"radio"}
+                label={"Paypal or Credit Card"}
+                id={"paypal"}
+                name={"paymentMethod"}
+                value={"Paypal"}
+                onClick={(e) => setPaymentMethod(e.target.value)}
+              ></Form.Check>
+              <Form.Check
+                type={"radio"}
+                label={"EMI"}
+                id={"EMI"}
+                name={"paymentMethod"}
+                value={"EMI"}
+                onClick={(e) => setPaymentMethod(e.target.value)}
+              ></Form.Check>
+              <Form.Check
+                type={"radio"}
+                label={"UPI"}
+                id={"UPI"}
+                name={"paymentMethod"}
+                value={"UPI"}
+                onClick={(e) => setPaymentMethod(e.target.value)}
+              ></Form.Check>
+            </Col>
+          </Form.Group>
+          <Button type="submit" variant="primary" className="my-3">
+            Continue
+          </Button>
+        </Form>
+      </FormContainer>
+    </>
   );
 };
 

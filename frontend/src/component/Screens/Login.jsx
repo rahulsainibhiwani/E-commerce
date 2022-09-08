@@ -6,6 +6,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import Message from "./Message";
 import Loading from "./Loading";
 import { userLOGIN } from "../../REDUX/actions/authActions";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [data, setData] = useState();
@@ -23,18 +24,26 @@ const Login = () => {
   };
   const LoginUser = useSelector((state) => state.LoginUser);
   const { loading, error, userInfo } = LoginUser;
-  const userDetail=useSelector(state=>state.userDetail)
+  const userDetail = useSelector((state) => state.userDetail);
+  const { user } = userDetail;
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
+  useEffect(() => {
+    if (!user) {
+      Swal.fire("Please Login!", "Session has expied!", "warning");
+    }
+  }, []);
   return (
     <FormContainer>
       <Form onSubmit={handleSubmit} onChange={handleChange}>
         <h1>Sign IN</h1>
         {error && <Message varient={"danger"} message={error} />}
-        {userDetail.error && <Message varient={"warning"} message={userDetail.error} />}
+        {userDetail.error && (
+          <Message varient={"warning"} message={userDetail.error} />
+        )}
         {loading && <Loading />}
         <FormGroup controlId="email">
           <Form.Label>Email</Form.Label>

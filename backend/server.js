@@ -7,6 +7,7 @@ import ProductRoute from "./Routes/ProductRoutes.js";
 import { errorHandler, notFound } from "./Middleware/errorMiddleware.js";
 import userRoute from "./Routes/userRoutes.js";
 import { authMiddleware } from "./Middleware/authMiddleware.js";
+import orderRoute from "./Routes/orderRoutes.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDb();
 
 app.use("/product", ProductRoute);
 app.use("/user", userRoute);
+app.use("/order", orderRoute);
 
 app.use(notFound);
 

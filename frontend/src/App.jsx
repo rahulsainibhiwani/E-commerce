@@ -12,6 +12,8 @@ import RegisterForm from "./component/Screens/RegisterForm";
 import Profile from "./component/Screens/Profile";
 import Shipping from "./component/Screens/Shipping";
 import PaymentScreen from "./component/Screens/PaymentScreen";
+import PlaceOrder from "./component/Screens/PlaceOrder";
+import GetOrderDetails from "./component/Screens/OrderScreen";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,6 +34,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/payment" element={<PaymentScreen />} />
+            <Route path="/placeorder" element={<PlaceOrder />} />
+            <Route path="/order/:id" element={<GetOrderDetails />} />
           </Routes>
         </Container>
       </main>
