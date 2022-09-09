@@ -13,7 +13,7 @@ import Profile from "./component/Screens/Profile";
 import Shipping from "./component/Screens/Shipping";
 import PaymentScreen from "./component/Screens/PaymentScreen";
 import PlaceOrder from "./component/Screens/PlaceOrder";
-import GetOrderDetails from "./component/Screens/OrderScreen";
+import { GetOrderDetails } from "./component/Screens/OrderScreen";
 
 function App() {
   const [count, setCount] = useState(0);
