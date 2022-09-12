@@ -13,6 +13,12 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
 } from "../constants/authConstants";
 
 export const userLOGIN = (Data) => async (dispatch) => {
@@ -102,6 +108,7 @@ export const userDetailAction = (id) => async (dispatch, getState) => {
     });
   }
 };
+
 export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
   const {
     LoginUser: { userInfo },
@@ -122,6 +129,58 @@ export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const userListAction = () => async (dispatch, getState) => {
+  const {
+    LoginUser: { userInfo },
+  } = getState();
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+    const { data } = await httpGet(`/user/getUsers`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const userDeleteAction = (id) => async (dispatch, getState) => {
+  const {
+    LoginUser: { userInfo },
+  } = getState();
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+    const { data } = await httpGet.delete(`/user/deleteUser/${id}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

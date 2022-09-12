@@ -9,11 +9,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { cartReducer } from "./reducers/cartReducer";
 import {
   authReducer,
+  userDeleteReducer,
   userDetailsReducer,
+  userListReducer,
   userRegisterReducer,
   userUpdateProfileReducer,
 } from "./reducers/authReducer";
 import {
+  myOrdersReducer,
   orderCreateReducer,
   orderDetailsReducer,
   orderPayReducer,
@@ -30,9 +33,9 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
   ? JSON.parse(localStorage.getItem("shippingAddress"))
   : {};
-const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
-  ? JSON.parse(localStorage.getItem("paymentMethod"))
-  : "";
+// const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
+//   ? JSON.parse(localStorage.getItem("paymentMethod"))
+//   : "";
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -44,13 +47,15 @@ const reducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
+  getMyOrders: myOrdersReducer,
+  usersList: userListReducer,
+  deleteUser: userDeleteReducer,
 });
 
 const initialState = {
   cart: {
     cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
-    PaymentMethod: paymentMethodFromStorage,
   },
   LoginUser: {
     userInfo: userInfoFromStorage,

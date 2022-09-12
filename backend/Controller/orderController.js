@@ -63,3 +63,27 @@ export const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 });
+
+// @desc Get logged in user orderItems
+// @route GET / order / myorders
+// @access Private
+export const getMyOrders = expressAsyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.person._id });
+  if (orders) res.json(orders);
+  else {
+    res.status(404);
+    throw new Error("Order List Empty");
+  }
+});
+
+// @desc Get logged in user orderItems
+// @route GET / order / myorders
+// @access Private
+export const getAllOrdersList = expressAsyncHandler(async (req, res) => {
+  const orders = await Order.find({});
+  if (orders) res.json(orders);
+  else {
+    res.status(404);
+    throw new Error("Order List Empty");
+  }
+});

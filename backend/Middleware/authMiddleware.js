@@ -16,11 +16,20 @@ export const authMiddleware = expressAsyncHandler(async (req, res, next) => {
       req.person = await User.findById(result.id).select("-password");
       next();
     } catch (error) {
-      res.status(400)
+      res.status(400);
       throw new Error("Session has expired Please Login First");
     }
   } else {
-    res.status(400)
+    res.status(400);
     throw new Error("Not Authorized, No token");
+  }
+});
+
+export const admin = expressAsyncHandler(async (req, res, next) => {
+  if (req.person && req.person.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authourized as an Admin");
   }
 });

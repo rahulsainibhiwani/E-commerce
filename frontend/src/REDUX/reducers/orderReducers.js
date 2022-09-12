@@ -1,5 +1,7 @@
-import { STATES } from "mongoose";
 import {
+  MY_ORDER_DETAILS_FAIL,
+  MY_ORDER_DETAILS_REQUEST,
+  MY_ORDER_DETAILS_SUCCESS,
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
@@ -26,7 +28,12 @@ export const orderCreateReducer = (state = {}, action) => {
 };
 
 export const orderDetailsReducer = (
-  state = { loading: true, orderItems: [], shippingAddress: {} },
+  state = {
+    loading: true,
+    orderItems: [],
+    shippingAddress: {},
+    paymentMethod: "",
+  },
   action
 ) => {
   switch (action.type) {
@@ -40,6 +47,7 @@ export const orderDetailsReducer = (
       return state;
   }
 };
+
 export const orderPayReducer = (state = {}, action) => {
   switch (action.type) {
     case ORDER_PAY_REQUEST:
@@ -50,6 +58,19 @@ export const orderPayReducer = (state = {}, action) => {
       return { error: action.payload };
     case ORDER_PAY_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const myOrdersReducer = (state = { myOrders: [] }, action) => {
+  switch (action.type) {
+    case MY_ORDER_DETAILS_REQUEST:
+      return { ...state, loading: true };
+    case MY_ORDER_DETAILS_SUCCESS:
+      return { myOrders: action.payload };
+    case MY_ORDER_DETAILS_FAIL:
+      return { error: action.payload };
     default:
       return state;
   }

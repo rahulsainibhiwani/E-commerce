@@ -14,6 +14,8 @@ import Shipping from "./component/Screens/Shipping";
 import PaymentScreen from "./component/Screens/PaymentScreen";
 import PlaceOrder from "./component/Screens/PlaceOrder";
 import { GetOrderDetails } from "./component/Screens/OrderScreen";
+import UsersListScreen from "./component/Screens/UsersListScreen";
+import Loading from "./component/Screens/Loading";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -36,6 +38,8 @@ function App() {
             <Route path="/payment" element={<PaymentScreen />} />
             <Route path="/placeorder" element={<PlaceOrder />} />
             <Route path="/order/:id" element={<GetOrderDetails />} />
+            <Route path="/admin/usersList" element={<UsersListScreen />} />
+            <Route path="/load" element={<Loading />} />
           </Routes>
         </Container>
       </main>

@@ -64,9 +64,19 @@ export const GetOrderDetails = () => {
     <Message varient={"danger"} message={error} />
   ) : (
     <>
-      <h1>
-        Order Id: <span style={{ fontWeight: "400" }}>{order._id}</span>
-      </h1>
+      <Col md={9}>
+        <h1>
+          Order Id:{" "}
+          <span style={{ fontWeight: "400", width: "100%" }}>{order._id}</span>
+        </h1>
+      </Col>
+      <Col md={3}>
+        <Link to={"/profile"}>
+          <Button className="my-3 ">
+            <i class="fa-lg fa-solid fa-circle-arrow-left px-1"></i> Back
+          </Button>
+        </Link>
+      </Col>
       <Row>
         <Col md={8}>
           <ListGroup variant={"flush"}>
