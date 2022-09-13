@@ -11,6 +11,7 @@ import {
 import Loading from "../Screens/Loading";
 import { getMyOrder } from "../../REDUX/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
+import { USER_UPDATE_PROFILE_RESET } from "../../REDUX/constants/authConstants";
 
 const RegisterForm = () => {
   const [profileData, setProfileData] = useState();
@@ -19,7 +20,7 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setProfileData({ ...data, [e.target.name]: e.target.value });
+    setProfileData({ ...profileData, [e.target.name]: e.target.value });
   };
 
   const userDetail = useSelector((state) => state.userDetail);
@@ -48,7 +49,7 @@ const RegisterForm = () => {
         });
       }
     }
-  }, [navigate, userInfo, dispatch, user]);
+  }, [navigate, userInfo, dispatch, user, status]);
   useEffect(() => {
     if (error === "Session has expired Please Login First") {
       dispatch(userLogout());

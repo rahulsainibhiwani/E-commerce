@@ -19,6 +19,12 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  GET_USER_BY_ADMIN_REQUEST,
+  GET_USER_BY_ADMIN_SUCCESS,
+  GET_USER_BY_ADMIN_FAIL,
+  UPDATE_USER_BY_ADMIN_REQUEST,
+  UPDATE_USER_BY_ADMIN_SUCCESS,
+  UPDATE_USER_BY_ADMIN_FAIL,
 } from "../constants/authConstants";
 
 export const userLOGIN = (Data) => async (dispatch) => {
@@ -188,3 +194,64 @@ export const userDeleteAction = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const getUserByAdminAction = (id) => async (dispatch, getState) => {
+  const {
+    LoginUser: { userInfo },
+  } = getState();
+  try {
+    dispatch({
+      type: GET_USER_BY_ADMIN_REQUEST,
+    });
+    const { data } = await httpGet(`/user/admin/getAUser/${id}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({
+      type: GET_USER_BY_ADMIN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USER_BY_ADMIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateUserByAdminAction =
+  (id, userData) => async (dispatch, getState) => {
+    const {
+      LoginUser: { userInfo },
+    } = getState();
+    console.log(userData);
+    try {
+      dispatch({
+        type: UPDATE_USER_BY_ADMIN_REQUEST,
+      });
+      const { data } = await httpPost.put(
+        `/user/admin/updateAUser/${id}`,
+        userData,
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: UPDATE_USER_BY_ADMIN_SUCCESS,
+      });
+      dispatch({
+        type: GET_USER_BY_ADMIN_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_USER_BY_ADMIN_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

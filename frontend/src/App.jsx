@@ -16,10 +16,9 @@ import PlaceOrder from "./component/Screens/PlaceOrder";
 import { GetOrderDetails } from "./component/Screens/OrderScreen";
 import UsersListScreen from "./component/Screens/UsersListScreen";
 import Loading from "./component/Screens/Loading";
+import UserEditForm from "./component/Screens/UserEditScreen";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div>
       <Header />
@@ -39,6 +38,7 @@ function App() {
             <Route path="/placeorder" element={<PlaceOrder />} />
             <Route path="/order/:id" element={<GetOrderDetails />} />
             <Route path="/admin/usersList" element={<UsersListScreen />} />
+            <Route path="/admin/user/:id/edit" element={<UserEditForm />} />
             <Route path="/load" element={<Loading />} />
           </Routes>
         </Container>

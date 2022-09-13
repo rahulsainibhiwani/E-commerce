@@ -1,4 +1,11 @@
 import {
+  GET_USER_BY_ADMIN_FAIL,
+  GET_USER_BY_ADMIN_REQUEST,
+  GET_USER_BY_ADMIN_SUCCESS,
+  RESET_UPDATE_USER_BY_ADMIN,
+  UPDATE_USER_BY_ADMIN_FAIL,
+  UPDATE_USER_BY_ADMIN_REQUEST,
+  UPDATE_USER_BY_ADMIN_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
@@ -17,6 +24,7 @@ import {
   USER_REGISTER_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_RESET,
   USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants/authConstants";
 
@@ -70,6 +78,8 @@ export const userUpdateProfileReducer = (
       return { ...state, loading: true };
     case USER_UPDATE_PROFILE_SUCCESS:
       return { loading: false, status: true, updatedUser: action.payload };
+    case USER_UPDATE_PROFILE_RESET:
+      return {};
     case USER_UPDATE_PROFILE_FAIL:
       return { loading: false, error: action.payload };
     default: {
@@ -100,6 +110,40 @@ export const userDeleteReducer = (state = {}, action) => {
       return { loading: false, status: true, msg: action.payload };
     case USER_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    default: {
+      return state;
+    }
+  }
+};
+
+export const getUserByAdminReducer = (state = { userByAdmin: {} }, action) => {
+  switch (action.type) {
+    case GET_USER_BY_ADMIN_REQUEST:
+      return { loading: true };
+    case GET_USER_BY_ADMIN_SUCCESS:
+      return { loading: false, status: true, userByAdmin: action.payload };
+    case GET_USER_BY_ADMIN_FAIL:
+      return { loading: false, error: action.payload };
+    default: {
+      return state;
+    }
+  }
+};
+
+export const updateUserByAdminReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case UPDATE_USER_BY_ADMIN_REQUEST:
+      return { loading: true };
+    case UPDATE_USER_BY_ADMIN_SUCCESS:
+      return {
+        loading: false,
+        status: true,
+      };
+    case UPDATE_USER_BY_ADMIN_FAIL:
+      return { loading: false, error: action.payload };
+
+    case RESET_UPDATE_USER_BY_ADMIN:
+      return { user: {} };
     default: {
       return state;
     }

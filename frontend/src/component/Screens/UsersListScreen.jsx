@@ -87,7 +87,7 @@ const UsersListScreen = () => {
                 </td>
                 <td className="d-flex justify-content-around align-items-center">
                   <Link
-                    to={`/user/${user._id}/edit`}
+                    to={`/admin/user/${user._id}/edit`}
                     style={{ color: "orange" }}
                   >
                     <i className="fa-bg fa-solid fa-user-pen"></i>
