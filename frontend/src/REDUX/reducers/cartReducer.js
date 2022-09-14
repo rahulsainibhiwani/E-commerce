@@ -30,6 +30,9 @@ export const cartReducer = (
           cartItems: [...state.cartItems, item],
         };
       }
+    case CART_SAVE_PAYMENT_METHOD: {
+      return { ...state, paymentMethod: action.payload };
+    }
     case CART_REMOVE_PRODUCT:
       return {
         ...state,

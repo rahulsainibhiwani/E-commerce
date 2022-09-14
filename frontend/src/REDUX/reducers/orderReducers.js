@@ -32,7 +32,6 @@ export const orderDetailsReducer = (
     loading: true,
     orderItems: [],
     shippingAddress: {},
-    paymentMethod: "",
   },
   action
 ) => {
@@ -41,6 +40,7 @@ export const orderDetailsReducer = (
       return { ...state, loading: true };
     case ORDER_DETAILS_SUCCESS:
       return { loading: false, order: action.payload };
+
     case ORDER_DETAILS_FAIL:
       return { error: action.payload };
     default:

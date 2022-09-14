@@ -114,7 +114,7 @@ export const GetOrderDetails = () => {
               <h2>Payment Method</h2>
               <p>
                 <strong>Method:</strong>
-                {order.paymentMethod}
+                {order?.paymentMethod}
               </p>
               <p>
                 {order.isPaid ? (

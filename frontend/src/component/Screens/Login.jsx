@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "./FormContainer";
 import { Row, Col, Button, Form, FormGroup } from "react-bootstrap";
@@ -6,10 +6,14 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import Message from "./Message";
 import Loading from "./Loading";
 import { userLOGIN } from "../../REDUX/actions/authActions";
+import ReCAPTCHA from "react-google-recaptcha";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Login = () => {
+  const captchaRef = useRef(null);
   const [data, setData] = useState();
+  const [siteKey, setSiteKey] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,6 +24,8 @@ const Login = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const token = captchaRef.current.getValue();
+    // console.log(token);
     dispatch(userLOGIN(data));
   };
   const LoginUser = useSelector((state) => state.LoginUser);
@@ -27,16 +33,24 @@ const Login = () => {
   const userDetail = useSelector((state) => state.userDetail);
   const { user } = userDetail;
   useEffect(() => {
+    async function getSiteKey() {
+      const { data: googleSiteKey } = await axios.get(
+        "http://localhost:5911/api/config/GoogleSiteKey"
+      );
+      setSiteKey(googleSiteKey);
+    }
+    getSiteKey();
     if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
+
   useEffect(() => {
     if (!user) {
       Swal.fire("Please Login!", "Session has expied!", "warning");
     }
   }, []);
-  return (
+  return siteKey ? (
     <FormContainer>
       <Form onSubmit={handleSubmit} onChange={handleChange}>
         <h1>Sign IN</h1>
@@ -61,6 +75,9 @@ const Login = () => {
             name="password"
           ></Form.Control>
         </FormGroup>
+        <FormGroup className="mt-3">
+          <ReCAPTCHA sitekey={siteKey} ref={captchaRef} />
+        </FormGroup>
         <Button className="my-4" type="submit" varient="dark">
           Sign In
         </Button>
@@ -74,6 +91,8 @@ const Login = () => {
         </Col>
       </Row>
     </FormContainer>
+  ) : (
+    <Loading />
   );
 };
 
