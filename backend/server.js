@@ -1,4 +1,5 @@
 import express from "express";
+const router = express.Router();
 import dotenv from "dotenv";
 import cors from "cors";
 import colors from "colors";
@@ -9,13 +10,17 @@ import userRoute from "./Routes/userRoutes.js";
 import { authMiddleware } from "./Middleware/authMiddleware.js";
 import orderRoute from "./Routes/orderRoutes.js";
 import Validator from "node-input-validator";
-const app = express();
+import aes256 from "aes256";
+import axios from "axios";
+import route from "./Routes/recaptcha.js";
 
+const app = express();
 app.use(express.json());
 app.use(cors());
 dotenv.config();
 connectDb();
 
+app.use("/recaptcha", route);
 app.use("/product", ProductRoute);
 app.use("/user", userRoute);
 app.use("/order", orderRoute);

@@ -8,11 +8,15 @@ import Loading from "./Loading";
 import { userLOGIN } from "../../REDUX/actions/authActions";
 import ReCAPTCHA from "react-google-recaptcha";
 import Swal from "sweetalert2";
+import { httpGet } from "../../config/axiosConfig";
 import axios from "axios";
+import Reaptcha from "reaptcha";
 
 const Login = () => {
   const captchaRef = useRef(null);
   const [data, setData] = useState();
+  const [captchaToken, setCaptchaToken] = useState();
+  const [msg, setMsg] = useState();
   const [siteKey, setSiteKey] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,12 +26,33 @@ const Login = () => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = captchaRef.current.getValue();
-    // console.log(token);
-    dispatch(userLOGIN(data));
+    if (captchaToken) {
+      dispatch(userLOGIN(data));
+    } else {
+      setMsg("Please check Recaptcha");
+    }
+    // captchaToken &&
+    //   (await httpGet
+    //     .post("/recaptcha/post", captchaToken)
+    //     .then((res) => {
+    //       console.log(res);
+    //       if (res.data === true) {
+    //         dispatch(userLOGIN(data));
+    //       }
+    //     })
+    //     .catch((er) => setMsg(er.message)));
   };
+
+  const verify = () => {
+    captchaRef.current
+      .getResponse()
+      .then((res) => setCaptchaToken(res))
+      .catch((er) => console.log("VERIFY FUNCTION--" + er.message));
+    console.log("Verify Called");
+  };
+
   const LoginUser = useSelector((state) => state.LoginUser);
   const { loading, error, userInfo } = LoginUser;
   const userDetail = useSelector((state) => state.userDetail);
@@ -55,6 +80,7 @@ const Login = () => {
       <Form onSubmit={handleSubmit} onChange={handleChange}>
         <h1>Sign IN</h1>
         {error && <Message varient={"danger"} message={error} />}
+        {msg && <Message varient={"danger"} message={msg} />}
         {userDetail.error && (
           <Message varient={"warning"} message={userDetail.error} />
         )}
@@ -76,9 +102,14 @@ const Login = () => {
           ></Form.Control>
         </FormGroup>
         <FormGroup className="mt-3">
-          <ReCAPTCHA sitekey={siteKey} ref={captchaRef} />
+          <Reaptcha onVerify={verify} sitekey={siteKey} ref={captchaRef} />
         </FormGroup>
-        <Button className="my-4" type="submit" varient="dark">
+        <Button
+          disabled={captchaToken ? false : true}
+          className="my-4"
+          type="submit"
+          varient="dark"
+        >
           Sign In
         </Button>
       </Form>

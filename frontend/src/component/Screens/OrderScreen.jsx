@@ -23,7 +23,7 @@ export const GetOrderDetails = () => {
   const { userInfo } = LoginUser;
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, status: statusPay } = orderPay;
-
+  console.log(order);
   useEffect(() => {
     const addPaypalScript = async () => {
       const { data: clientId } = await axios.get(
@@ -55,6 +55,7 @@ export const GetOrderDetails = () => {
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
+    console.log(order);
     dispatch(payOrder(orderID, paymentResult));
   };
 

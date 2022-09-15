@@ -14,11 +14,13 @@ const PaymentScreen = () => {
   if (!shippingAddress) {
     navigate("/shipping");
   }
-  const [paymentMethod, setPaymentMethod] = useState("paypal");
+  const [paymentMethod, setPaymentMethod] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(savePaymentMethod(paymentMethod));
-    navigate("/placeorder");
+    if (paymentMethod) {
+      dispatch(savePaymentMethod(paymentMethod));
+      navigate("/placeorder");
+    }
   };
   return (
     <>
@@ -33,24 +35,24 @@ const PaymentScreen = () => {
                 type={"radio"}
                 label={"Paypal or Credit Card"}
                 id={"paypal"}
-                name={"paymentMethod"}
-                value={"Paypal"}
+                name="paymentMethod"
+                value="Paypal"
                 onClick={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
               <Form.Check
                 type={"radio"}
                 label={"EMI"}
                 id={"EMI"}
-                name={"paymentMethod"}
-                value={"EMI"}
+                name="paymentMethod"
+                value="EMI"
                 onClick={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
               <Form.Check
                 type={"radio"}
                 label={"UPI"}
                 id={"UPI"}
-                name={"paymentMethod"}
-                value={"UPI"}
+                name="paymentMethod"
+                value="UPI"
                 onClick={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
             </Col>

@@ -3,6 +3,8 @@ import {
   deleteUser,
   getUsers,
 } from "../Controller/userController.js";
+
+import { authenticateHeader } from "../config/checkHeaderKeys.js";
 import express from "express";
 import {
   authUser,
@@ -16,7 +18,7 @@ import { admin, authMiddleware } from "../Middleware/authMiddleware.js";
 const userRoute = express.Router();
 userRoute.route("/createUser").post(createUser);
 userRoute.route("/getUsers").get(authMiddleware, admin, getUsers);
-userRoute.post("/login", authUser);
+userRoute.post("/login", authenticateHeader, authUser);
 userRoute
   .route("/profile")
   .get(authMiddleware, getUserProfile)

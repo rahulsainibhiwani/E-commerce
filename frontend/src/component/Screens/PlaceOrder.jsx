@@ -37,7 +37,7 @@ const PlaceOrder = () => {
       createOrder({
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.PaymentMethod,
+        paymentMethod: cart.paymentMethod,
         itemsPrice: cart.itemsPrice,
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
@@ -67,7 +67,7 @@ const PlaceOrder = () => {
               <h2>Payment Method</h2>
               <p>
                 <strong>Method:</strong>
-                {cart.PaymentMethod}
+                {cart.paymentMethod}
               </p>
             </ListGroup.Item>
             {cart.cartItems.length === 0 ? (
