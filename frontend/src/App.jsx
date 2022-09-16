@@ -17,6 +17,7 @@ import { GetOrderDetails } from "./component/Screens/OrderScreen";
 import UsersListScreen from "./component/Screens/UsersListScreen";
 import Loading from "./component/Screens/Loading";
 import UserEditForm from "./component/Screens/UserEditScreen";
+import ProductsListScreen from "./component/Screens/ProductList";
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
             <Route path="/order/:id" element={<GetOrderDetails />} />
             <Route path="/admin/usersList" element={<UsersListScreen />} />
             <Route path="/admin/user/:id/edit" element={<UserEditForm />} />
+            <Route
+              path="/admin/productsList"
+              element={<ProductsListScreen />}
+            />
             <Route path="/load" element={<Loading />} />
           </Routes>
         </Container>

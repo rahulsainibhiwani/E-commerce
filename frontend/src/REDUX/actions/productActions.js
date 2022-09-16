@@ -1,5 +1,8 @@
 import { httpGet } from "../../config/axiosConfig";
 import {
+  PRODUCT_DELETE_FAIL,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
@@ -29,16 +32,16 @@ const listProducts = () => async (dispatch) => {
   }
 };
 
-const listProductDetails=(id)=>async(dispatch)=>{
+const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({
-      type:PRODUCT_DETAILS_REQUEST
-    })
-    const {data}=await httpGet(`/product/${id}`)
+      type: PRODUCT_DETAILS_REQUEST,
+    });
+    const { data } = await httpGet(`/product/${id}`);
     dispatch({
-      type:PRODUCT_DETAILS_SUCCESS,
-      payload:data
-    })
+      type: PRODUCT_DETAILS_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     dispatch({
       type: PRODUCT_DETAILS_FAIL,
@@ -48,6 +51,27 @@ const listProductDetails=(id)=>async(dispatch)=>{
           : error.message,
     });
   }
-}
+};
 
-export { listProducts,listProductDetails};
+export const deleteProduct = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: PRODUCT_DELETE_REQUEST,
+    });
+    const { data } = await httpGet(`/product/${id}`);
+    dispatch({
+      type: PRODUCT_DELETE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export { listProducts, listProductDetails };

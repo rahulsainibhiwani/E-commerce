@@ -16,21 +16,23 @@ import {
 } from "../Controller/authController.js";
 import { admin, authMiddleware } from "../Middleware/authMiddleware.js";
 const userRoute = express.Router();
-userRoute.route("/createUser").post(createUser);
-userRoute.route("/getUsers").get(authMiddleware, admin, getUsers);
+userRoute.route("/createUser").post(authenticateHeader, createUser);
+userRoute
+  .route("/getUsers")
+  .get(authenticateHeader, authMiddleware, admin, getUsers);
 userRoute.post("/login", authenticateHeader, authUser);
 userRoute
   .route("/profile")
-  .get(authMiddleware, getUserProfile)
-  .put(authMiddleware, updateUserProfile);
+  .get(authenticateHeader, authMiddleware, getUserProfile)
+  .put(authenticateHeader, authMiddleware, updateUserProfile);
 userRoute
   .route("/deleteUser/:id")
-  .delete(authMiddleware, admin, deleteUserByAdmin);
+  .delete(authenticateHeader, authMiddleware, admin, deleteUserByAdmin);
 userRoute
   .route("/admin/getAUser/:id")
-  .get(authMiddleware, admin, getAUserByAdmin);
+  .get(authenticateHeader, authMiddleware, admin, getAUserByAdmin);
 userRoute
   .route("/admin/updateAUser/:id")
-  .put(authMiddleware, admin, updateUserByAdmin);
+  .put(authenticateHeader, authMiddleware, admin, updateUserByAdmin);
 
 export default userRoute;

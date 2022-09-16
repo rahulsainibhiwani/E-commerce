@@ -187,8 +187,7 @@ export const GetOrderDetails = () => {
               </ListGroup.Item>
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingPay && <Loading />}
-                  {!sdkReady ? (
+                  {loadingPay ? (
                     <Loading />
                   ) : (
                     <PayPalButton

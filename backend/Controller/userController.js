@@ -19,7 +19,6 @@ export const createUser = expressAsyncHandler(async (req, res) => {
     password: "required",
   });
   let values = JSON.parse(JSON.stringify(v));
-  console.log(v);
   let errorsResponse = await checkValidation(v);
 
   if (errorsResponse) {
